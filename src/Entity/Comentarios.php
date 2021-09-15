@@ -27,6 +27,16 @@ class Comentarios
      */
     private $fecha_publicacion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comentarios")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Posts", inversedBy="comentarios")
+     */
+    private $posts;
+
     public function getId(): ?int
     {
         return $this->id;

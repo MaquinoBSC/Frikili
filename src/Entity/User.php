@@ -36,17 +36,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
-
     /**
      * @ORM\Column(type="boolean")
      */
     private $baneado;
 
-
     /**
      * @ORM\Column(type="string")
      */
     private $nombre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comentarios", mappedBy="user")
+     */
+    private $comentarios;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Posts", mappedBy="user")
+     */
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Profesion", mappedBy="user")
+     */
+    private $profesion;
 
     public function getId(): ?int
     {
