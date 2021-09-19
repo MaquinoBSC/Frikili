@@ -8,24 +8,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistroController extends AbstractController
 {
     /**
      * @Route("/registro", name="registro")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user= new User();
-        $user->setBaneado(false);
-        $user->setRoles(['ROLE_USER']);//Asignar Rol, tambien tenemos ROLE_ADMIN
         $form= $this->createForm(UserType::class, $user);
-
+        
         //Determinamos si el formulario fue enviado
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //Manejador de entidades
             $entityManager= $this->getDoctrine()->getManager();
+            
+            $user->setBaneado(false);
+            $user->setRoles(['ROLE_USER']);//Asignar Rol, tambien tenemos ROLE_ADMIN
+            //$user->setPassword($passwordEncoder->encodePassword($user, $form['password']->getData()));
+            $user->setPassword($passwordHasher->hashPassword($user, $form['password']->getData()));
+            
             $entityManager->persist($user);
             $entityManager->flush();
 
