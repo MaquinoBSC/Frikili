@@ -27,15 +27,13 @@ class RegistroController extends AbstractController
             //Manejador de entidades
             $entityManager= $this->getDoctrine()->getManager();
             
-            $user->setBaneado(false);
-            $user->setRoles(['ROLE_USER']);//Asignar Rol, tambien tenemos ROLE_ADMIN
             //$user->setPassword($passwordEncoder->encodePassword($user, $form['password']->getData()));
             $user->setPassword($passwordHasher->hashPassword($user, $form['password']->getData()));
             
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('exito', "Se ha registrado exitosamente");
+            $this->addFlash('exito', User::REGISTRO_EXITOSO);
             return $this->redirectToRoute('registro');
         }
 

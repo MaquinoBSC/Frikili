@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const REGISTRO_EXITOSO= "Se ha registrado exitosamente";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -60,6 +61,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Profesion", mappedBy="user")
      */
     private $profesion;
+
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->roles= ['ROLE_USER'];
+        $this->baneado= false;
+    }
 
     public function getId(): ?int
     {
@@ -130,7 +141,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBaneado(): boolean
+    public function getBaneado()
     {
         return $this->baneado;
     }
