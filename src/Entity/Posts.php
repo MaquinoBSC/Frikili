@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostsRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +29,7 @@ class Posts
     private $likes;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $foto;
 
@@ -51,6 +52,16 @@ class Posts
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      */
     private $user;
+
+
+    /**
+     * Posts constructor
+     */
+    public function __construct()
+    {
+        $this->likes= "";
+        $this->fecha_publicacion= new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -114,6 +125,28 @@ class Posts
     {
         $this->contenido = $contenido;
 
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser($user)
+    {
+        $this->user= $user;
+        return $this;
+    }
+
+    public function getComentarios()
+    {
+        return $this->comentarios;
+    }
+
+    public function setComentarios($comentarios)
+    {
+        $this->comentarios= $comentarios;
         return $this;
     }
 }
