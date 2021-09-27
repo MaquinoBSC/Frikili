@@ -5,6 +5,29 @@
 {% block body %}
     {{ parent() }}
 
-    {{ dump(post) }}
+    <div class="container bg-white rounded my-3 p-4">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight">
+                <h3> {{ post.titulo }}</h3>
+                <div class="my-3" style="color:#3282b8;">
+                    <i class="fa fa-thumbs-up"></i><strong> # Likes: {{ post.likes }}</strong>
+                </div>
+                <div style="color:#c3f584;">
+                    <i class="far fa-clock"></i> <strong>Fecha de publicación: {{ post.getFechaPublicacion() | date }}</strong>
+                </div>
+            </div>
+            <div class="p-2 bd-highlight">
+                <div class="align-self-center">
+                    <img class="rounded" src=" {{ asset('uploads/photos/'~post.foto) }}" width="150px">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="text-justify my-3">
+            {{ post.contenido }}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec venenatis eros, ac lobortis ex. Sed aliquet lacus quam, ut ullamcorper elit faucibus eu. In sem purus, venenatis eget maximus ut, bibendum et ligula. Aenean gravida leo in nisl venenatis, semper consequat tortor auctor. Nunc lacinia lacus massa, vitae maximus lorem tincidunt vel. Cras ultricies varius lorem, vitae venenatis justo consequat vitae. Pellentesque tempor sapien vel lacus aliquam euismod vitae eget odio. Integer in enim pharetra, tristique erat et, dignissim lorem. Maecenas faucibus at ex non vulputate. Nullam non blandit tortor. Nulla metus dolor, vehicula vel elit et, ornare venenatis ligula. Pellentesque aliquet, justo sit amet finibus elementum, felis orci tristique dolor, ac luctus nunc velit vitae felis. Integer ut egestas lectus. Nam consequat faucibus ante, a elementum ipsum. Sed luctus magna vitae sapien tristique, eu pellentesque dui venenatis.
+
+        </div>
+    </div>
 
 {% endblock %}
