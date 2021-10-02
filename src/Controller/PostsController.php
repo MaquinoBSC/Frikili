@@ -7,6 +7,7 @@ use App\Form\PostsType;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -87,5 +88,27 @@ class PostsController extends AbstractController
         return $this->render('posts/misPosts.html.twig', [
             'misPosts'=> $posts
         ]);
+    }
+
+    /**
+     * @Route("/likes", options={"expose"=true}, name="likes")
+     */
+    public function like(Request $request){
+        if($request->isXmlHttpRequest()){//Si la peticion s AJAX
+            $em= $this->getDoctrine()->getManager();
+            $user= $this->getUser();
+            $id= $request->request->get('id');
+            $post= $em->getRepository(Posts::class)->find($id);
+            $likes= $post->getLikes();
+            $likes .= $user->getId() . ",";
+
+            $post->setLikes($likes);
+            $em->flush();
+
+            return new JsonResponse(['likes'=> $likes]);
+        }
+        else{//De lo contrario es una peticion HTTP
+            throw new Exception("Estas tratando de hackearme?");
+        }
     }
 }
